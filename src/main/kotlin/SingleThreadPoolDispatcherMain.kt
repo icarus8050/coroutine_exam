@@ -1,19 +1,20 @@
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.runBlocking
 
 fun main() {
     runBlocking {
-        val dispatcher = newSingleThreadContext(name = "ServiceCall")
-        val task = GlobalScope.launch(dispatcher) {
+        val task = GlobalScope.launch {
             printCurrentThread()
         }
-        task.join()
-        println("completed")
     }
+    println("Running in thread [${Thread.currentThread().name}]")
+    println("completed")
+    Thread.sleep(5000)
 }
 
-fun printCurrentThread() {
+suspend fun printCurrentThread() {
+    delay(2000)
     println("Running in thread [${Thread.currentThread().name}]")
 }
