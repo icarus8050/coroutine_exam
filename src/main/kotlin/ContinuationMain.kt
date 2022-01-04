@@ -2,25 +2,27 @@ import kotlin.concurrent.thread
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class ContinuationMain {
-}
+class ContinuationMain
 
 suspend fun main() {
     println("Before")
-
-    suspendCoroutine<Unit> {
-        invokeAfterSecond(2) {
-            it.resume(Unit)
-        }
-    }
-
+    val user = requestUser()
+    println(user)
     println("After")
 }
 
-fun invokeAfterSecond(sleepTime: Int, operation: () -> Unit) {
-    thread {
-        println("Thread sleep : $sleepTime seconds..")
-        Thread.sleep((sleepTime * 1000).toLong())
-        operation.invoke()
+suspend fun requestUser(): User {
+    return suspendCoroutine { cont ->
+        requestUser { user ->
+            cont.resume(user)
+        }
     }
 }
+
+fun requestUser(operator: (User) -> Unit) {
+    return operator.invoke(User("Foo"))
+}
+
+data class User(
+    val name: String,
+)
