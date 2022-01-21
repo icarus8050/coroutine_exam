@@ -25,6 +25,12 @@ fun main() {
     println(ctx4[CoroutineName]?.name)
     println(ctx4[Job]?.isActive)
     println(ctx4[MyCoroutineContext]?.name)
+    println("---------------------")
+
+    val ctx5 = ctx4.minusKey(MyCoroutineContext)
+    println(ctx5[CoroutineName]?.name)
+    println(ctx5[Job]?.isActive)
+    println(ctx5[MyCoroutineContext]?.name)
 }
 
 data class MyCoroutineContext(
