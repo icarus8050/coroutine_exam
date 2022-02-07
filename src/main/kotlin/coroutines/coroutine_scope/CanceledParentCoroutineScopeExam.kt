@@ -8,6 +8,7 @@ private suspend fun longTask() = coroutineScope {
         val name = coroutineContext[CoroutineName]?.name
         println("[$name] Finished task 1")
     }
+
     launch {
         delay(2000)
         val name = coroutineContext[CoroutineName]?.name
@@ -15,8 +16,10 @@ private suspend fun longTask() = coroutineScope {
     }
 }
 
-fun main() = runBlocking(CoroutineName("Parent")) {
-    println("Before")
-    longTask()
-    println("After")
+fun main(): Unit = runBlocking {
+    val job = launch(CoroutineName("Parent")) {
+        longTask()
+    }
+    delay(1500)
+    job.cancel()
 }
