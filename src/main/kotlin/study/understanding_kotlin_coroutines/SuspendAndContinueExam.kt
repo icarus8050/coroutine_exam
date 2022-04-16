@@ -1,4 +1,4 @@
-package study
+package study.understanding_kotlin_coroutines
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
